@@ -214,7 +214,7 @@ In this experiment, I learned how to perform Feature Encoding and Feature Transf
 
 Functions / Methods Used in the Experiment
 
-<img width="1100" height="768" alt="image" src="https://github.com/user-attachments/assets/21f7b42f-3ee7-424a-8851-10e1294d97a9" />
+<img width="900" height="800" alt="image" src="https://github.com/user-attachments/assets/21f7b42f-3ee7-424a-8851-10e1294d97a9" />
 
 
 Function Transformation techniques such as Log, Reciprocal, Square Root and Square transformations were applied to numerical features. These methods help modify the distribution of data.
