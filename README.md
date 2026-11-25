@@ -210,4 +210,37 @@ Thus, Feature Encoding techniques and Feature Transformation methods were succes
 # SUMMARY:
 
 
+In this experiment, I learned how to perform Feature Encoding and Feature Transformation using Python, Pandas, and Scikit-learn. The datasets were imported using pd.read_csv() and cleaned by identifying missing values and duplicate records.
 
+Functions / Methods Used in the Experiment
+Function / Method	Description
+pd.read_csv()	Used to load the datasets.
+df.dropna()	Used to remove missing values.
+df.drop_duplicates()	Used to remove duplicate records.
+OrdinalEncoder / Mapping	Used to convert ordered categories into numerical values.
+LabelEncoder()	Used to convert categorical labels into numerical values.
+BinaryEncoder()	Used to convert categories into binary digits.
+pd.get_dummies()	Used to perform One-Hot Encoding.
+np.log()	Used for Log Transformation.
+1 / x	Used for Reciprocal Transformation.
+np.sqrt()	Used for Square Root Transformation.
+np.square()	Used for Square Transformation.
+boxcox()	Used for Box-Cox Power Transformation.
+PowerTransformer()	Used for Yeo-Johnson Transformation.
+df.to_csv()	Used to save the processed datasets.
+files.download()	Used to download the output files from Google Colab.
+
+Function Transformation techniques such as Log, Reciprocal, Square Root and Square transformations were applied to numerical features. These methods help modify the distribution of data.
+
+Power Transformation techniques, including Box-Cox and Yeo-Johnson, were performed to reduce skewness and improve the distribution of numerical features.
+
+Finally, the transformed datasets were saved using df.to_csv() and downloaded using Google Colab's files.download() function.
+
+Libraries Used:
+- Pandas: Data loading, cleaning, manipulation and saving datasets.
+- NumPy: Mathematical operations and numerical transformations.
+- Scikit-learn: Label Encoding and Yeo-Johnson Transformation.
+- Category Encoders: Binary Encoding.
+- SciPy: Box-Cox Transformation.
+- Matplotlib: Visualization of skewness comparison.
+- Google Colab Files: Uploading and downloading datasets.
