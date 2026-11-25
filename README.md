@@ -31,8 +31,183 @@ We use this categorical data encoding technique when the features are nominal(do
 • Yeojohnson method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
-# RESULT:
-       # INCLUDE YOUR RESULT HERE
 
-       
+```
+
+!pip install category_encoders -q
+
+from google.colab import files
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import category_encoders as ce
+
+from sklearn.preprocessing import LabelEncoder, PowerTransformer
+from scipy.stats import boxcox
+
+uploaded = files.upload()
+
+df = pd.read_csv("data.csv")
+
+df = df.dropna().drop_duplicates()
+
+print("Original Encoding Dataset:")
+display(df)
+
+ord1 = {
+    'Cold': 0,
+    'Warm': 1,
+    'Hot': 2,
+    'Very Hot': 3
+}
+
+ord2 = {
+    'High School': 0,
+    'Diploma': 1,
+    'Bachelors': 2,
+    'Masters': 3,
+    'PhD': 4
+}
+
+df['Ord_1_Encoded'] = df['Ord_1'].map(ord1)
+df['Ord_2_Encoded'] = df['Ord_2'].map(ord2)
+
+le = LabelEncoder()
+df['bin_1_Encoded'] = le.fit_transform(df['bin_1'])
+
+df['bin_2_Encoded'] = df['bin_2'].map({'N': 0, 'Y': 1})
+
+binary_encoder = ce.BinaryEncoder(cols=['City'])
+binary_data = binary_encoder.fit_transform(df[['City']])
+
+one_hot = pd.get_dummies(df['City'], prefix='City', dtype=int)
+
+encoded_df = pd.concat([df, binary_data, one_hot], axis=1)
+
+encoded_df.to_csv("Encoded_Data.csv", index=False)
+
+print("Ordinal Encoding:")
+display(df[['Ord_1', 'Ord_1_Encoded', 'Ord_2', 'Ord_2_Encoded']])
+
+print("Label Encoding:")
+display(df[['bin_1', 'bin_1_Encoded', 'bin_2', 'bin_2_Encoded']])
+
+print("Binary Encoding:")
+display(pd.concat([df[['City']], binary_data], axis=1))
+
+print("One-Hot Encoding:")
+display(one_hot)
+
+print("Final Encoded Dataset:")
+display(encoded_df)
+
+files.download("Encoded_Data.csv")
+
+data = pd.read_csv("Data_to_Transform.csv")
+
+data = data.dropna().drop_duplicates()
+
+print("Original Transformation Dataset:")
+display(data.head())
+
+print("Original Skewness:")
+print(data.skew())
+
+transformed_data = data.copy()
+
+for col in data.columns:
+    shifted = data[col] - data[col].min() + 1
+    transformed_data[col + '_Log'] = np.log(shifted)
+    transformed_data[col + '_Reciprocal'] = 1 / shifted
+    transformed_data[col + '_SquareRoot'] = np.sqrt(shifted)
+    transformed_data[col + '_Square'] = np.square(data[col])
+
+print("Function Transformation Output:")
+display(transformed_data.head())
+
+boxcox_data = pd.DataFrame(index=data.index)
+
+for col in data.columns:
+    shifted = data[col] - data[col].min() + 1
+    transformed, lam = boxcox(shifted)
+    boxcox_data[col + '_BoxCox'] = transformed
+    print(col, "Lambda:", round(lam, 4))
+
+print("Box-Cox Transformation Output:")
+display(boxcox_data.head())
+
+yeo = PowerTransformer(method='yeo-johnson')
+
+yeo_values = yeo.fit_transform(data)
+
+yeo_data = pd.DataFrame(
+    yeo_values,
+    columns=[col + '_YeoJohnson' for col in data.columns],
+    index=data.index
+)
+
+print("Yeo-Johnson Transformation Output:")
+display(yeo_data.head())
+
+final_data = pd.concat(
+    [transformed_data, boxcox_data, yeo_data],
+    axis=1
+)
+
+final_data.to_csv("Transformed_Data.csv", index=False)
+
+print("Final Transformed Dataset:")
+display(final_data.head())
+
+print("Final Dataset Shape:", final_data.shape)
+
+comparison = pd.DataFrame({
+    'Original': data.skew(),
+    'BoxCox': boxcox_data.skew(),
+    'YeoJohnson': yeo_data.skew()
+})
+
+print("Skewness Comparison:")
+display(comparison)
+
+comparison.plot(kind='bar', figsize=(12, 6))
+plt.title("Skewness Before and After Transformation")
+plt.xlabel("Features")
+plt.ylabel("Skewness")
+plt.xticks(rotation=20)
+plt.grid(axis='y')
+plt.show()
+
+files.download("Transformed_Data.csv")
+
+print("Both Feature Encoding and Feature Transformation completed successfully.")
+```
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+# RESULT:
+
+Thus, Feature Encoding techniques and Feature Transformation methods were successfully performed on the given datasets. The processed datasets were successfully saved as CSV files.
+
+# SUMMARY:
+
+
+
